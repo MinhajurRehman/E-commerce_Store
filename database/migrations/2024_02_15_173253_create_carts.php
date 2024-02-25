@@ -17,7 +17,10 @@ class CreateCarts extends Migration
             $table->id();
             $table->unsignedBigInteger("product_id");
             $table->unsignedBigInteger("user_id");
+            $table->unsignedBigInteger("order_id")->nullable();
             $table->integer("quantity");
+            $table->string("size")->nullable();
+            $table->string("color")->nullable();
             $table->timestamps();
         });
     }

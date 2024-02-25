@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends('layouts.main', ["cartCount" => $cartCount])
 @section('main-container')
 
 <!-- Breadcrumb Start -->
@@ -45,53 +45,51 @@
                 <p class="mb-4">{{ $products->smallDescription }}</p>
                 <div class="d-flex mb-3">
                     <strong class="text-dark mr-3">Sizes:</strong>
-                    <form>
+
                         <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" class="custom-control-input" id="size-1" name="size">
+                            <input type="radio" class="custom-control-input" value="XS" form="addToCart" id="size-1" name="size">
                             <label class="custom-control-label" for="size-1">XS</label>
                         </div>
                         <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" class="custom-control-input" id="size-2" name="size">
+                            <input type="radio" class="custom-control-input" value="S" form="addToCart" id="size-2" name="size">
                             <label class="custom-control-label" for="size-2">S</label>
                         </div>
                         <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" class="custom-control-input" id="size-3" name="size">
+                            <input type="radio" class="custom-control-input" value="M" form="addToCart" id="size-3" name="size">
                             <label class="custom-control-label" for="size-3">M</label>
                         </div>
                         <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" class="custom-control-input" id="size-4" name="size">
+                            <input type="radio" class="custom-control-input" value="L" form="addToCart" id="size-4" name="size">
                             <label class="custom-control-label" for="size-4">L</label>
                         </div>
                         <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" class="custom-control-input" id="size-5" name="size">
+                            <input type="radio" class="custom-control-input" value="XL" form="addToCart" id="size-5" name="size">
                             <label class="custom-control-label" for="size-5">XL</label>
                         </div>
-                    </form>
+
                 </div>
                 <div class="d-flex mb-4">
                     <strong class="text-dark mr-3">Colors:</strong>
-                    <form>
                         <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" class="custom-control-input" id="color-1" name="color">
+                            <input type="radio" class="custom-control-input" value="black" form="addToCart" id="color-1" name="color">
                             <label class="custom-control-label" for="color-1">Black</label>
                         </div>
                         <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" class="custom-control-input" id="color-2" name="color">
+                            <input type="radio" class="custom-control-input" value="white" form="addToCart" id="color-2" name="color">
                             <label class="custom-control-label" for="color-2">White</label>
                         </div>
                         <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" class="custom-control-input" id="color-3" name="color">
+                            <input type="radio" class="custom-control-input" value="red" form="addToCart" id="color-3" name="color">
                             <label class="custom-control-label" for="color-3">Red</label>
                         </div>
                         <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" class="custom-control-input" id="color-4" name="color">
+                            <input type="radio" class="custom-control-input" value="blue" form="addToCart" id="color-4" name="color">
                             <label class="custom-control-label" for="color-4">Blue</label>
                         </div>
                         <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" class="custom-control-input" id="color-5" name="color">
+                            <input type="radio" class="custom-control-input" value="green" form="addToCart" id="color-5" name="color">
                             <label class="custom-control-label" for="color-5">Green</label>
                         </div>
-                    </form>
                 </div>
                 <div class="d-flex align-items-center mb-4 pt-2">
                     <div class="input-group quantity mr-3" style="width: 130px;">
@@ -100,7 +98,7 @@
                                 <i class="fa fa-minus"></i>
                             </button>
                         </div>
-                        <input type="text" class="form-control bg-secondary border-0 text-center" value="1">
+                        <input type="text" name="quantity" form="addToCart" class="form-control bg-secondary border-0 text-center" value="1">
                         <div class="input-group-btn">
                             <button class="btn btn-primary btn-plus">
                                 <i class="fa fa-plus"></i>
@@ -110,7 +108,7 @@
                     <form action="{{ route("cart.add") }}" method="post" id="addToCart">
                         @csrf
                         <input type="hidden" name="product_id" value="{{ $products->id }}">
-                        <input type="hidden" name="user_id" value="0">
+                        <input type="hidden" name="user_id" value="1"> {{-- $user->id or $request->user->id --}}
                         <button type="submit" class="btn btn-primary px-3"><i class="fa fa-shopping-cart mr-1"></i> Add To Cart</button>
                     </form>
                 </div>

@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\homecontroller;
 use App\Http\Controllers\authcontroller;
+use App\Models\Cart;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,18 +19,16 @@ use App\Http\Controllers\authcontroller;
 
 Route::get('/',[homecontroller::class, 'view']);
 
-Route::get('/cart', function () {
-    return view('cart');
-});
+Route::get('/cart', [homecontroller::class, "cart"])->name("cart");
 Route::post('/cart/add', [homecontroller::class, "addItemtoCart"])->name('cart.add');
 Route::post('/cart/remove', [homecontroller::class, "removeItemFromCart"])->name('cart.remove');
-
-Route::get('/checkout', function () {
-    return view('checkout');
-});
+Route::post('/checkout', [homecontroller::class, "checkout"])->name("checkout");
 
 Route::get('/contact', function () {
-    return view('contact');
+    $cartCount = Cart::where("user_id", 1)->count();
+    return view('contact', [
+        "cartCount" => $cartCount
+    ]);
 });
 
 Route::get('/dashboard', function () {
