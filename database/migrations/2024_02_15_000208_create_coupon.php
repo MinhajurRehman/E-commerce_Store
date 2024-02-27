@@ -15,8 +15,17 @@ class CreateCoupon extends Migration
     {
         Schema::create('coupon', function (Blueprint $table) {
             $table->id();
-            $table->string('cname');
-            $table->string('couponnumber');
+            $table->string('coupon_name');
+            $table->string('desc');
+            $table->string('max_uses');
+            $table->string('max_uses_users');
+            $table->string('type');
+            $table->string('discount_ammount');
+            $table->string('min_ammount');
+            $table->string('status');
+            $table->string('starts_at');
+            $table->string('expires_at');
+            $table->string('code');
             $table->timestamps();
         });
     }

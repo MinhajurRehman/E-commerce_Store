@@ -18,11 +18,12 @@ use App\Models\Cart;
 */
 
 Route::get('/',[homecontroller::class, 'view']);
-
 Route::get('/cart', [homecontroller::class, "cart"])->name("cart");
 Route::post('/cart/add', [homecontroller::class, "addItemtoCart"])->name('cart.add');
 Route::post('/cart/remove', [homecontroller::class, "removeItemFromCart"])->name('cart.remove');
 Route::post('/checkout', [homecontroller::class, "checkout"])->name("checkout");
+
+
 
 Route::get('/contact', function () {
     $cartCount = Cart::where("user_id", 1)->count();
@@ -31,9 +32,12 @@ Route::get('/contact', function () {
     ]);
 });
 
-Route::get('/dashboard', function () {
+
+Route::get('/dasboard', function(){
     return view('dashboard');
 });
+
+
 
 
 Route::get('login',[authcontroller::class,'login']);
@@ -41,6 +45,11 @@ Route::get('register',[authcontroller::class,'register']);
 Route::post('registeruser',[authcontroller::class,'registerUser']);
 Route::post('loginuser',[authcontroller::class,'loginUser'])->name('loginuser');
 Route::get('logout',[authcontroller::class,'logout']);
+
+
+
+
+
 
 
 Route::get('/Admin/Dashboard', function () {
@@ -66,8 +75,9 @@ Route::get('/Admin/New-Order', function () {
 
 Route::post('/Admin/categories',[AdminController::class , 'store']);
 Route::post('/Admin/products',[AdminController::class , 'save']);
-
 Route::get('/shop/{id}', [homecontroller::class, 'Shop'])->name('shop.Buy');
+
+
 
 Route::get('/Admin/Coupon', [AdminController::class , 'coupon']);
 Route::post('/Admin/Coupon', [AdminController::class , 'couponsave']);

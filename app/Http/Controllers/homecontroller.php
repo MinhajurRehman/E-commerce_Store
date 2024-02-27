@@ -8,6 +8,9 @@ use App\Models\product;
 use App\Models\sections;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
+
+
 
 class homecontroller extends Controller
 {
@@ -17,12 +20,13 @@ class homecontroller extends Controller
     }
 
     public function view(){
+        $users = User::where('id','=',Session::get('loginId'))->first();
         $cartCount = Cart::where("user_id", 1)->count();
 
         $products = product::orderBy('id', 'desc')->take(8)->get();
         return view('welcome', [
             "cartCount" => $cartCount
-        ])->with(['products' => $products]);
+        ])->with(['products' => $products])->with(['users'=>$users]);
 
     }
 
@@ -83,9 +87,9 @@ class homecontroller extends Controller
             Cart::create([
                 'product_id' => $product_id,
                 'user_id' => $user_id,
-                'quantity' => $quantity,    
-                'size' => $size,    
-                'color' => $color,    
+                'quantity' => $quantity,
+                'size' => $size,
+                'color' => $color,
             ]);
         }
 
@@ -123,10 +127,9 @@ class homecontroller extends Controller
         // Associate the carts with the order
         Cart::where('user_id', $user_id)->update(['order_id' => $order->id]);
 
-        return "Thank you !"; 
-        
-    }
+        return "Thank you !";
 
+    }
 
 
 }

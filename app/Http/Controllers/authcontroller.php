@@ -13,11 +13,14 @@ use Illuminate\Support\Facades\Session;
 class authcontroller extends Controller
 {
     public function login(){
-        return view('login');
+
+        $users = new User;
+        return view('login',['users'=>$users]);
     }
 
     public function register(){
-        return view('register');
+        $users = new User;
+        return view('register',['users'=>$users]);
     }
 
     public function registerUser(Request $request){
@@ -51,7 +54,7 @@ class authcontroller extends Controller
         if($user){
             if(Hash::check($request->password, $user->password)){
                 $request->session()->put('loginId',$user->id);
-                return redirect('dashboard');
+                return redirect('/');
             }else{
                 return back()->with('fail','Password does not match.');
             }

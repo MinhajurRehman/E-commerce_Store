@@ -21,6 +21,8 @@
     <!-- Libraries Stylesheet -->
     <link href="{{ url('lib/animate/animate.min.css') }}" rel="stylesheet">
     <link href="{{ url('lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="{{ url('css/style.css') }}" rel="stylesheet">
@@ -41,11 +43,19 @@
             <div class="col-lg-6 text-center text-lg-right">
                 <div class="d-inline-flex align-items-center">
                     <div class="btn-group">
+                        {{--  @if($users != 'loginId')
+                        <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">{{ $users->username }}</button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a href=""><button class="dropdown-item" type="button" readonly>{{ $users->email }}</button></a>
+                            <a href="{{ url('logout') }}"><button class="dropdown-item" type="button">Log Out</button></a>
+                        </div>
+                        @else
                         <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">My Account</button>
                         <div class="dropdown-menu dropdown-menu-right">
                             <a href="{{ url('login') }}"><button class="dropdown-item" type="button">Sign in</button></a>
                             <a href="{{ url('register') }}"><button class="dropdown-item" type="button">Sign up</button></a>
                         </div>
+                        @endif  --}}
                     </div>
                     <div class="btn-group mx-2">
                         <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">USD</button>
@@ -84,13 +94,14 @@
                 </a>
             </div>
             <div class="col-lg-4 col-6 text-left">
-                <form action="">
+                <form action="{{ url('dasboard') }}" method="get">
+                    @csrf
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search for products">
+                        <input type="search" class="form-control" id="search_product" name="product_name" placeholder="Search for products">
                         <div class="input-group-append">
-                            <span class="input-group-text bg-transparent text-primary">
+                            <button type="submit" class="input-group-text bg-transparent text-primary">
                                 <i class="fa fa-search"></i>
-                            </span>
+                            </button>
                         </div>
                     </div>
                 </form>

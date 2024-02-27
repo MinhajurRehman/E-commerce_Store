@@ -79,6 +79,41 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
 <script src="{{ url('lib/easing/easing.min.js') }}"></script>
 <script src="{{ url('lib/owlcarousel/owl.carousel.min.js') }}"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
+<script>
+    $( function() {
+      var availableTags = [
+        "ActionScript",
+        "AppleScript",
+        "Asp",
+        "BASIC",
+        "C",
+        "C++",
+        "Clojure",
+        "COBOL",
+        "ColdFusion",
+        "Erlang",
+        "Fortran",
+        "Groovy",
+        "Haskell",
+        "Java",
+        "JavaScript",
+        "Lisp",
+        "Perl",
+        "PHP",
+        "Python",
+        "Ruby",
+        "Scala",
+        "Scheme"
+      ];
+      $( "#search_product" ).autocomplete({
+        source: availableTags
+      });
+    } );
+    </script>
+
 
 <!-- Contact Javascript File -->
 <script src="{{ url('mail/jqBootstrapValidation.min.js') }}"></script>
