@@ -53,7 +53,7 @@ class authcontroller extends Controller
         $user = User::where('email','=',$request->email)->first();
         if($user){
             if(Hash::check($request->password, $user->password)){
-                $request->session()->put('loginId',$user->id);
+                $request->session()->put('AdminId',$user->id);
                 return redirect('/');
             }else{
                 return back()->with('fail','Password does not match.');

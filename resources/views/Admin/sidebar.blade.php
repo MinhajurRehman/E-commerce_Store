@@ -51,7 +51,7 @@
                           <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="#">Dashboard</a></li>
                             <li><a class="dropdown-item" href="#">My Downloads</a></li>
-                            <li><a class="dropdown-item" href="#">Logout</a></li>
+                            <li><a class="dropdown-item" href="{{ route("admin.logout") }}">Logout</a></li>
                           </ul>
                         </div>
                    </div>

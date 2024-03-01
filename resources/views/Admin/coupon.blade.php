@@ -70,58 +70,20 @@
 <form method="post">
     @csrf
     <label for="name">Coupon Name:</label>
-    <input type="text" id="name" name="coupon_name" placeholder="Coupon Name"><br><br>
+    <input type="text" id="name" name="name" placeholder="Coupon Name"><br><br>
 
-    <label for="name">Description</label>
-    <input type="text" id="desc" name="desc" placeholder="Description..."><br><br>
+    <label for="name">Coupon Code Custom:</label>
+    <input type="text" id="code" name="code" placeholder="Coupon Code custom"><br><br>
 
-    <label for="name">Maximum Uses</label>
-    <input type="text" id="max_uses" name="max_uses" placeholder="max uses"><br><br>
+    <label for="name">Coupon Start Date:</label>
+    <input type="datetime-local" id="start" name="startsAt"><br><br>
 
-    <label for="name">Maximum Uses Users</label>
-    <input type="text" id="max_uses_users" name="max_uses_users" placeholder="max uses users"><br><br>
-
-    <label for="cars">Choose a Discount Type</label>
-    <select name="type" id="type" form="type">
-    <option value="percent">percent</option>
-    <option value="fixed">fixed</option>
-    </select>
-
-    <label for="name">Discount ammount</label>
-    <input type="text" id="discount_ammount" name="discount_ammount" placeholder="discount ammount"><br><br>
-
-    <label for="name">Minimum ammount</label>
-    <input type="text" id="min_ammount" name="min_ammount" placeholder="min ammount"><br><br>
-
-    <label for="cars">Status On/Off</label>
-    <select name="status" id="status" form="status">
-    <option value="0">1</option>
-    <option value="1">0</option>
-    </select>
-
-    <label for="name">Start date</label>
-    <input type="datetime-local" id="starts_at" name="starts_at"><br>
-    <span style="color: red">notice*start date must be greater than current date</span><br>
-
-
-    <label for="name">Expire Date</label>
-    <input type="datetime-local" id="expires_at" name="expires_at"><br>
-    <span style="color: red">notice*expires date must be greater than start date</span><br>
-
-    <label for="random">Random Alphanumeric:</label>
-    <input type="text" id="random" name="code" readonly><br>
-    <br>
-    <button type="button" onclick="generateRandom()">Generate</button><br><br>
+    <label for="name">Coupon Expiry Date:</label>
+    <input type="datetime-local" id="expire" name="expiresAt"><br><br>
 
     <button type="submit">Submit</button>
 </form>
 
-<script>
-function generateRandom() {
-    var randomString = Math.random(45).toString(36).substring(7);
-    document.getElementById('random').value = randomString;
-}
-</script>
 
 
 
@@ -132,15 +94,26 @@ function generateRandom() {
             <tr>
                 <th>ID</th>
                 <th>Coupon Name</th>
-                <th>Coupon Number (generated)</th>
+                <th>Coupon Code </th>
+                <th>Coupon Start Date </th>
+                <th>Coupon Expire Date </th>
+                <th>Actions </th>
             </tr>
         </thead>
         <tbody>
-            @foreach($coupon as $con)
+            @foreach($coupons as $con)
             <tr>
-                <td>{{ $con->id }}</td>
-                <td>{{ $con->cname }}</td>
-                <td>{{ $con->couponnumber }}</td>
+                <td>{{ $con->id }} </td>
+                <td>{{ $con->name }} </td>
+                <td>{{ $con->code }} </td>
+                <td>{{ $con->startsAt }} </td>
+                <td>{{ $con->expiresAt }} </td>
+                <td><a href=""><i class="bi bi-trash">Delete</i></a></td>
+                <style>
+                    i{
+                        color:red;
+                    }
+                </style>
             </tr>
             @endforeach
         </tbody>

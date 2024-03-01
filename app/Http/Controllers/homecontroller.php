@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\generate;
 use App\Models\Order;
 use App\Models\product;
 use App\Models\sections;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 
@@ -38,6 +41,7 @@ class homecontroller extends Controller
     // }
 
     public function Shop($id){
+        $users = User::where('id','=',Session::get('loginId'))->first();
         $products  = product::find($id);
         $cartCount = Cart::where("user_id", 1)->count();
 
@@ -47,7 +51,7 @@ class homecontroller extends Controller
         } else {
             //found
             $url = url('/shop') . "/" . $id;
-            $data = compact('products', 'url');
+            $data = compact('products', 'url', 'users');
             return view('detail', [
                 "cartCount" => $cartCount
             ])->with($data);
@@ -55,6 +59,7 @@ class homecontroller extends Controller
     }
 
     function cart(Request $request){
+        $users = User::where('id','=',Session::get('loginId'))->first();
         $user_id = 1;
         $cartCount = Cart::where("user_id", 1)->count();
 
@@ -62,7 +67,8 @@ class homecontroller extends Controller
 
         return view("cart", [
             "items" => $items,
-            "cartCount" => $cartCount
+            "cartCount" => $cartCount,
+            "users"=>$users
         ]);
 
     }
@@ -130,6 +136,58 @@ class homecontroller extends Controller
         return "Thank you !";
 
     }
+
+    public function apply_coupon_code(Request $request){
+        $result=DB::table('coupons')
+        ->where(['code'=>$request->coupon_code])
+        ->get();
+
+        if(isset($result[0])){
+            if($result[0]->status==1){
+                if($result[0]->is_one_time==1){
+                    $status='denied';
+                    $msg='not used coupon multiple times its one time coupon';
+                }else{
+                    $min_ammount=$result[0]->min_ammount;
+                }
+                $status='success';
+                $msg='coupon code applied';
+
+            }else{
+                $status='error';
+                $msg='coupon code deactivated';
+            }
+
+        }else{
+            $status='error';
+            $msg='Please enter valid coupon code';
+        }
+        return response()->json(['status'=>$status,'msg'=>$msg]);
+    }
+
+    function search(Request $request) {
+        $products = product::all();
+        $dbQuery = product::query();
+
+        if ($request->filled('search')) {
+            $query = $request->input('search');
+            $dbQuery->where('productName', 'like', '%' . $query . '%');
+        }
+        $product = $dbQuery->get();
+        error_log($product);
+
+        // if ($request->filled('product')) {;
+        //     $products_id = $request->input('product');
+        //     $dbQuery->where('products_id', $products_id);
+        // }
+
+        return view('dashboard', [
+            'products' => $products,
+            'request' => $request,
+            'product' => $product,
+        ]);
+    }
+
 
 
 }

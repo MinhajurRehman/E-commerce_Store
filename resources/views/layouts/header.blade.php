@@ -43,7 +43,7 @@
             <div class="col-lg-6 text-center text-lg-right">
                 <div class="d-inline-flex align-items-center">
                     <div class="btn-group">
-                        {{--  @if($users != 'loginId')
+                        @if(Session::has('loginId'))
                         <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">{{ $users->username }}</button>
                         <div class="dropdown-menu dropdown-menu-right">
                             <a href=""><button class="dropdown-item" type="button" readonly>{{ $users->email }}</button></a>
@@ -55,7 +55,7 @@
                             <a href="{{ url('login') }}"><button class="dropdown-item" type="button">Sign in</button></a>
                             <a href="{{ url('register') }}"><button class="dropdown-item" type="button">Sign up</button></a>
                         </div>
-                        @endif  --}}
+                        @endif
                     </div>
                     <div class="btn-group mx-2">
                         <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">USD</button>
@@ -94,10 +94,10 @@
                 </a>
             </div>
             <div class="col-lg-4 col-6 text-left">
-                <form action="{{ url('dasboard') }}" method="get">
+                <form action="{{ route('product.search') }}" method="get">
                     @csrf
                     <div class="input-group">
-                        <input type="search" class="form-control" id="search_product" name="product_name" placeholder="Search for products">
+                        <input type="search" class="form-control" id="search_product" name="search" placeholder="Search for products">
                         <div class="input-group-append">
                             <button type="submit" class="input-group-text bg-transparent text-primary">
                                 <i class="fa fa-search"></i>
@@ -177,3 +177,35 @@
     </div>
 
     <!-- Navbar End -->
+
+    <script>
+        $( function() {
+            var availableTags = [
+              "ActionScript",
+              "AppleScript",
+              "Asp",
+              "BASIC",
+              "C",
+              "C++",
+              "Clojure",
+              "COBOL",
+              "ColdFusion",
+              "Erlang",
+              "Fortran",
+              "Groovy",
+              "Haskell",
+              "Java",
+              "JavaScript",
+              "Lisp",
+              "Perl",
+              "PHP",
+              "Python",
+              "Ruby",
+              "Scala",
+              "Scheme"
+            ];
+            $( "#search_product" ).autocomplete({
+              source: availableTags
+            });
+          } );
+    </script>

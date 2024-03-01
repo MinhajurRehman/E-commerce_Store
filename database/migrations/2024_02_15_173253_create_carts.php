@@ -19,6 +19,7 @@ class CreateCarts extends Migration
             $table->unsignedBigInteger("user_id");
             $table->unsignedBigInteger("order_id")->nullable();
             $table->integer("quantity");
+            $table->enum("user_type", ["admin", "buyer"]);
             $table->string("size")->nullable();
             $table->string("color")->nullable();
             $table->timestamps();

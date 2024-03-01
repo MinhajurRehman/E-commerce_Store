@@ -5,9 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class generate extends Model
+class Admin extends Model
 {
     use HasFactory;
-    protected $table = 'coupons';
-    protected $primarykey = 'id';
+    protected $fillable = [
+        'name', 'email', 'password'
+    ];
 }

@@ -66,40 +66,19 @@ class AdminController extends Controller
         return view('Admin.coupon');
     }
     public function couponsave(Request $request){
-        $request->validate([
-            'coupon_name'=>'required',
-            'desc'=>'required',
-            'max_uses'=>'required',
-            'max_uses_users'=>'required',
-            'type'=>'required',
-            'discount_ammount'=>'required',
-            'min_ammount'=>'required',
-            'status'=>'required',
-            'starts_at'=>'required',
-            'expires_at'=>'required',
-            'code'=>'required',
-        ]);
 
-
-        $coupon = new generate;
-        $coupon->coupon_name = $request['coupon_name'];
-        $coupon->desc = $request['desc'];
-        $coupon->max_uses = $request['max_uses'];
-        $coupon->max_uses_users = $request['max_uses_users'];
-        $coupon->type = $request['type'];
-        $coupon->discount_ammount = $request['discount_ammount'];
-        $coupon->min_ammount = $request['min_ammount'];
-        $coupon->status = $request['status'];
-        $coupon->starts_at = $request['starts_at'];
-        $coupon->expires_at = $request['expires_at'];
-        $coupon->code = $request['code'];
-        $coupon->save();
+        $coupons = new generate;
+        $coupons->name = $request['name'];
+        $coupons->code = $request['code'];
+        $coupons->startsAt = $request['startsAt'];
+        $coupons->expiresAt = $request['expiresAt'];
+        $coupons->save();
 
         return redirect('/Admin/Coupon');
 
     }
     public function couponshow(){
-        $coupon = generate::all();
-        return view('Admin.coupon')->with(['coupon' => $coupon]);
+        $coupons = generate::all();
+        return view('Admin.coupon')->with(['coupons' => $coupons]);
     }
 }

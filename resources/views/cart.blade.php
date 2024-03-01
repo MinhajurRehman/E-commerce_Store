@@ -33,7 +33,7 @@
                 <tbody class="align-middle">
                     @foreach ($items as $item)
 
-                        <tr> 
+                        <tr>
                             <td class="align-middle"><img src="{{ $item->product->img }}" alt="" style="width: 50px;"> {{ $item->product->productName }}</td>
                             <td class="align-middle">${{ $item->product->productPrice }}</td>
                             <td class="align-middle">
@@ -150,11 +150,13 @@
             </table>
         </div>
         <div class="col-lg-4">
-            <form class="mb-30" action="">
+            <form class="mb-30" action="" method="post" id="applyCouponForm">
+                @csrf
+                <div style="color: red" id="coupon_code_msg"></div>
                 <div class="input-group">
-                    <input type="text" class="form-control border-0 p-4" placeholder="Coupon Code">
+                    <input type="text" class="form-control border-0 p-4" placeholder="Coupon Code" name="code" id="coupon_code">
                     <div class="input-group-append">
-                        <button class="btn btn-primary">Apply Coupon</button>
+                        <button type="button" class="btn btn-primary" id="apply-discount" onclick="applyCouponCode()">Apply Coupon</button>
                     </div>
                 </div>
             </form>
@@ -221,8 +223,31 @@
             $('#total').val('$' + total);
         }
     });
-</script>
 
+
+
+    function applyCouponCode(){
+        jQuery('#coupon_code_msg').html('');
+        var coupon_code=jQuery('#coupon_code').val();
+        if(coupon_code!=''){
+            jQuery.ajax({
+                type: 'post',
+                url: '/apply_coupon_code',
+                data: 'coupon_code='+coupon_code+'&_token='+jQuery("[name='_token']").val(),
+                success: function(result){
+                    console.log(result);
+                }
+            });
+        }else{
+            jQuery('#coupon_code_msg').html('Please enter coupon code');
+        }
+    }
+
+
+
+
+
+</script>
 
 
 
