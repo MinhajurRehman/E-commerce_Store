@@ -17,6 +17,11 @@ class CreateCoupons extends Migration
             $table->id();
             $table->string('name');
             $table->string('code');
+            $table->string('value');
+            $table->string('type');
+            $table->string('min_ammount');
+            $table->string('one_time');
+            $table->string('status');
             $table->string('startsAt');
             $table->string('expiresAt');
             $table->timestamps();

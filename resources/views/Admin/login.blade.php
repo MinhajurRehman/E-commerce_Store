@@ -11,7 +11,7 @@
         @csrf
         <input type="email" name="email">
         <input type="password" name="password">
-        <input type="submit" >
+        <input type="submit">
     </form>
 </body>
 </html>

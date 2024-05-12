@@ -43,10 +43,10 @@
             <div class="col-lg-6 text-center text-lg-right">
                 <div class="d-inline-flex align-items-center">
                     <div class="btn-group">
-                        @if(Session::has('loginId'))
-                        <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">{{ $users->username }}</button>
+                        @if(Session::has('LoggedUser'))
+                        <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">{{ request()->user->username }}</button>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a href=""><button class="dropdown-item" type="button" readonly>{{ $users->email }}</button></a>
+                            <a href=""><button class="dropdown-item" type="button" readonly>{{ request()->user->email }}</button></a>
                             <a href="{{ url('logout') }}"><button class="dropdown-item" type="button">Log Out</button></a>
                         </div>
                         @else
@@ -167,7 +167,7 @@
                             </a>
                             <a href="{{ url('/cart') }}" class="btn px-0 ml-3">
                                 <i class="fas fa-shopping-cart text-primary"></i>
-                                <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">{{ $cartCount ?? 0 }}</span>
+                                <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">{{request()->cartCount}}</span>
                             </a>
                         </div>
                     </div>

@@ -23,7 +23,7 @@ class AuthCheckUser
 
         // Passing down users data for the template
         $id = session("LoggedUser");
-        $request->user = User::where("id", "=", $id)->first();
+        $request->user = User::find($id);
 
         return $next($request);
     }

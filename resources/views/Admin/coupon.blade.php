@@ -70,10 +70,32 @@
 <form method="post">
     @csrf
     <label for="name">Coupon Name:</label>
-    <input type="text" id="name" name="name" placeholder="Coupon Name"><br><br>
+    <input type="text" id="name" name="name" placeholder="Enter Coupon Name"><br><br>
 
     <label for="name">Coupon Code Custom:</label>
-    <input type="text" id="code" name="code" placeholder="Coupon Code custom"><br><br>
+    <input type="text" id="code" name="code" placeholder="Enter Coupon Code custom"><br><br>
+
+    <label for="name">Coupon Code Value:</label>
+    <input type="number" id="value" name="value" placeholder="Enter Coupon Code value"><br><br>
+
+    <label for="name">Coupon Code Type:</label>
+    <select name="type" id="type">
+        <option value="Per">Per</option>
+        <option value="Value">Value</option>
+      </select>
+
+      <label for="name">Coupon Min Ammount:</label>
+      <input type="number" id="min_ammount" name="min_ammount" placeholder="Enter Coupon Min Ammount"><br><br>
+
+      <label for="name">Coupon One time:</label>
+      <input type="number" id="one_time" name="one_time" placeholder="Enter Coupon Use how many times"><br><br>
+
+      <label for="name">Coupon Code Status:</label>
+      <select name="status" id="status">
+          <option value="1">1</option>
+          <option value="0">0</option>
+        </select>
+
 
     <label for="name">Coupon Start Date:</label>
     <input type="datetime-local" id="start" name="startsAt"><br><br>

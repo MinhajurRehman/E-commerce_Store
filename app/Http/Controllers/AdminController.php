@@ -70,6 +70,11 @@ class AdminController extends Controller
         $coupons = new generate;
         $coupons->name = $request['name'];
         $coupons->code = $request['code'];
+        $coupons->value = $request['value'];
+        $coupons->type = $request['type'];
+        $coupons->min_ammount = $request['min_ammount'];
+        $coupons->one_time = $request['one_time'];
+        $coupons->status = $request['status'];
         $coupons->startsAt = $request['startsAt'];
         $coupons->expiresAt = $request['expiresAt'];
         $coupons->save();

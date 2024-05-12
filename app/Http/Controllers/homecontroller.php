@@ -12,8 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
-
-
+use Nette\Utils\Json;
 
 class homecontroller extends Controller
 {
@@ -22,13 +21,11 @@ class homecontroller extends Controller
         return view('index');
     }
 
-    public function view(){
+    public function view(Request $request){
         $users = User::where('id','=',Session::get('loginId'))->first();
-        $cartCount = Cart::where("user_id", 1)->count();
 
         $products = product::orderBy('id', 'desc')->take(8)->get();
         return view('welcome', [
-            "cartCount" => $cartCount
         ])->with(['products' => $products])->with(['users'=>$users]);
 
     }
@@ -43,7 +40,6 @@ class homecontroller extends Controller
     public function Shop($id){
         $users = User::where('id','=',Session::get('loginId'))->first();
         $products  = product::find($id);
-        $cartCount = Cart::where("user_id", 1)->count();
 
         if (is_null($products)) {
             //not found
@@ -53,29 +49,28 @@ class homecontroller extends Controller
             $url = url('/shop') . "/" . $id;
             $data = compact('products', 'url', 'users');
             return view('detail', [
-                "cartCount" => $cartCount
             ])->with($data);
         }
     }
 
     function cart(Request $request){
-        $users = User::where('id','=',Session::get('loginId'))->first();
-        $user_id = 1;
-        $cartCount = Cart::where("user_id", 1)->count();
+        $users = User::where('id','=',$request->user->id)->first();
+        $user_id = $request->user->id;
+        //dd($request->user);
 
         $items = Cart::with('product')->where('user_id', $user_id)->get();
-
+        // dd($user_id);
         return view("cart", [
             "items" => $items,
-            "cartCount" => $cartCount,
             "users"=>$users
         ]);
 
     }
 
     public function addItemtoCart(Request $request){
+
         $product_id = $request->input('product_id');
-        $user_id = $request->input('user_id');
+        $user_id = $request->user->id;
         $quantity = $request->input('quantity');
         $size = $request->input('size');
         $color = $request->input('color');
@@ -95,6 +90,7 @@ class homecontroller extends Controller
                 'user_id' => $user_id,
                 'quantity' => $quantity,
                 'size' => $size,
+                'user_type' => "buyer",
                 'color' => $color,
             ]);
         }
@@ -122,7 +118,7 @@ class homecontroller extends Controller
 
     function checkout(Request $request) {
         // Assuming you have authenticated users
-        $user_id = 1;
+        $user_id = $request->user->id;
 
         // Create a new order
         $order = Order::create([
@@ -143,8 +139,10 @@ class homecontroller extends Controller
         ->get();
 
         if(isset($result[0])){
+            $value=$result[0]->value;
+            $type=$result[0]->type;
             if($result[0]->status==1){
-                if($result[0]->is_one_time==1){
+                if($result[0]->one_time==1){
                     $status='denied';
                     $msg='not used coupon multiple times its one time coupon';
                 }else{
@@ -162,6 +160,10 @@ class homecontroller extends Controller
             $status='error';
             $msg='Please enter valid coupon code';
         }
+
+        if($status='success'){
+
+        }
         return response()->json(['status'=>$status,'msg'=>$msg]);
     }
 
@@ -176,10 +178,6 @@ class homecontroller extends Controller
         $product = $dbQuery->get();
         error_log($product);
 
-        // if ($request->filled('product')) {;
-        //     $products_id = $request->input('product');
-        //     $dbQuery->where('products_id', $products_id);
-        // }
 
         return view('dashboard', [
             'products' => $products,
@@ -188,6 +186,11 @@ class homecontroller extends Controller
         ]);
     }
 
-
+    public function logout(){
+        if(Session::has('LoggedUser')){
+            Session::pull('LoggedUser');
+            return redirect()->route("user.login");
+        }
+    }
 
 }

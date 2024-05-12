@@ -18,21 +18,46 @@ use Illuminate\Http\Request;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/',[homecontroller::class, 'view']);
 
-Route::get('/contact', function () {
-    $cartCount = Cart::where("user_id", 1)->count();
-    return view('contact', [
-        "cartCount" => $cartCount
-    ]);
+Route::middleware(["PassUserData"])->group(function(){
+    Route::get('/',[homecontroller::class, 'view'])->name("user.home");
+    Route::get('/contact', function () {
+        return view('contact');
+    })->name("user.contact");
+    Route::get('/product', [homecontroller::class, "search"])->name("product.search");
+    Route::get('/shop/{id}', [homecontroller::class, 'Shop'])->name('shop.Buy');
+
+    Route::middleware(["AuthCheckUser"])->group(function(){
+        Route::get('/dasboard', function(){
+            $product = [];
+            $products = [];
+            return view('dashboard', [
+                "product" => $product,
+                "products" => $products
+            ]);
+        })->name("user.dashboard");
+
+        Route::get('/cart', [homecontroller::class, "cart"])->name("cart");
+        Route::post('/cart/add', [homecontroller::class, "addItemtoCart"])->name('cart.add');
+        Route::post('/cart/remove', [homecontroller::class, "removeItemFromCart"])->name('cart.remove');
+        Route::post('/checkout', [homecontroller::class, "checkout"])->name("checkout");
+        Route::post('/apply_coupon_code',[homecontroller::class , 'apply_coupon_code']);
+        Route::get('logout',[homecontroller::class,'logout']);
+    });
 });
 
 
-Route::get('/product', [homecontroller::class, "search"])->name("product.search");
+Route::get('register',[authcontroller::class,'register']);
+Route::post('registeruser',[authcontroller::class,'registerUser']);
 
-Route::get('login',[authcontroller::class,'login']);
 
-Route::prefix("admin")->group(function(){
+Route::middleware(["AlreadyLoggedUser"])->group(function(){
+    Route::get('login',[authcontroller::class,'login'])->name("user.login");
+    Route::post('loginuser',[authcontroller::class,'loginUser'])->name('loginuser');
+});
+
+
+Route::prefix("Admin")->group(function(){
 
     Route::middleware(["AuthCheckAdmin"])->group(function(){
         Route::get('Dashboard', function () {
@@ -105,21 +130,3 @@ Route::prefix("admin")->group(function(){
 
 });
 
-Route::get('register',[authcontroller::class,'register']);
-Route::post('registeruser',[authcontroller::class,'registerUser']);
-Route::post('loginuser',[authcontroller::class,'loginUser'])->name('loginuser');
-Route::get('logout',[authcontroller::class,'logout']);
-
-
-Route::get('/shop/{id}', [homecontroller::class, 'Shop'])->name('shop.Buy');
-
-Route::get('/dasboard', function(){
-    return view('dashboard');
-});
-
-Route::get('/cart', [homecontroller::class, "cart"])->name("cart");
-Route::post('/cart/add', [homecontroller::class, "addItemtoCart"])->name('cart.add');
-Route::post('/cart/remove', [homecontroller::class, "removeItemFromCart"])->name('cart.remove');
-Route::post('/checkout', [homecontroller::class, "checkout"])->name("checkout");
-
-Route::post('/apply_coupon_code',[homecontroller::class , 'apply_coupon_code']);
